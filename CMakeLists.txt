@@ -5,4 +5,3 @@ add_executable(Converter src/main.cpp)
 
 include(CTest)
 enable_testing()
-
