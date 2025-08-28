@@ -23,11 +23,12 @@ std::string get_currency_from_user();
 
 bool contains_only_letters(std::string s);
 
+long get_user_value();
+
 int main() {
     setup();
     std::cout << "1 " << currency1 << " = " << course << " " << currency2 << '\n';
-    change_course();
-    change_currency();
+    convert();
     std::cout << "1 " << currency1 << " = " << course << " " << currency2 << '\n';
     getchar();
     return 0;
@@ -96,4 +97,42 @@ void change_currency() {
     currency1 = get_currency_from_user();
     currency2 = get_currency_from_user();
     rewrite_file();
+}
+
+long get_user_value() {
+    long value;
+    while (true) {
+        std::cout << "Enter number: ";
+        if (std::cin >> value)
+            return value;
+        else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+}
+
+void convert() {
+    std::cout << " | How do you want to convert:\n"
+              << " | 1. From " << currency1 << " to " << currency2 << ".\n"
+              << " | 2. From " << currency2 << " to " << currency1 << ".\n";
+    int choice;
+    while (true) {
+        std::cout << "Enter your choice: ";
+        if (std::cin >> choice && (0 < choice && choice < 3))
+            break;
+        else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+
+    int number;
+    if (choice == 1) {
+        number = get_user_value();
+        std::cout << number << ' ' << currency1 << " = " << number * course << ' ' << currency2 <<".\n";
+    } else {
+        number = get_user_value();
+        std::cout << number << ' ' << currency2 << " = " << number / course << ' ' << currency1 <<".\n";
+    }
 }
