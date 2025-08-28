@@ -25,12 +25,35 @@ bool contains_only_letters(std::string s);
 
 long get_user_value();
 
+short get_user_choice();
+
 int main() {
     setup();
-    std::cout << "1 " << currency1 << " = " << course << " " << currency2 << '\n';
-    convert();
-    std::cout << "1 " << currency1 << " = " << course << " " << currency2 << '\n';
-    getchar();
+    while (true) {
+        short option;
+        std::cout << "Current course: " << "1 " << currency1 << " = " << course << ' ' << currency2 << ".\n"
+                  << " | 1.Change course.\n"
+                  << " | 2.Change currency.\n"
+                  << " | 3.Convert.\n"
+                  << " | 4.Quit.\n";
+        option = get_user_choice();
+        switch (option)
+        {
+            case 1:
+                change_course();
+                break;
+            case 2:
+                change_currency();
+                break;
+            case 3:
+                convert();
+                break;
+            case 4:
+                return 0;
+            default:
+                break;
+        }
+    }
     return 0;
 }
 
@@ -116,23 +139,27 @@ void convert() {
     std::cout << " | How do you want to convert:\n"
               << " | 1. From " << currency1 << " to " << currency2 << ".\n"
               << " | 2. From " << currency2 << " to " << currency1 << ".\n";
-    int choice;
-    while (true) {
-        std::cout << "Enter your choice: ";
-        if (std::cin >> choice && (0 < choice && choice < 3))
-            break;
-        else {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        }
-    }
 
+    short choice = get_user_choice();
     int number;
     if (choice == 1) {
         number = get_user_value();
         std::cout << number << ' ' << currency1 << " = " << number * course << ' ' << currency2 <<".\n";
-    } else {
+    } else if (choice == 2) {
         number = get_user_value();
         std::cout << number << ' ' << currency2 << " = " << number / course << ' ' << currency1 <<".\n";
+    }
+}
+
+short get_user_choice() {
+    short choice;
+    while (true) {
+        std::cout << "Enter your choice: ";
+        if (std::cin >> choice)
+            return choice;
+        else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
     }
 }
