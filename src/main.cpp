@@ -19,7 +19,9 @@ void convert();
 
 int main() {
     setup();
-    std::cout << "1 " << currency1 << " = " << course << " " << currency2;
+    std::cout << "1 " << currency1 << " = " << course << " " << currency2 << '\n';
+    change_course();
+    std::cout << "1 " << currency1 << " = " << course << " " << currency2 << '\n';
     getchar();
     return 0;
 }
@@ -44,4 +46,19 @@ void setup() {
     fin >> currency2;
     
     fin.close(); // Closing the ifstream
+}
+
+void change_course() {
+    while (true) {
+        std::cout << "Enter new course: ";
+        if (std::cin >> course)
+            break;
+        else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+    std::ofstream fout(path);
+    fout << currency1 << delimeter << course << delimeter << currency2;
+    fout.close();
 }
